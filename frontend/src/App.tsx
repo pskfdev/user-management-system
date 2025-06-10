@@ -9,6 +9,7 @@ import Notfound from "./pages/Notfound";
 import ManageUsers from "./pages/ManageUsers";
 import Layout from "./route/layout/Layout";
 import ProtectRoute from "./route/protect-route/ProtectRoute";
+import DashboardLayout from "./route/layout/DashboardLayout";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         </Route>
 
         {/* Private */}
-        <Route path="users" element={<ProtectRoute />}>
+        <Route path="users" element={<ProtectRoute layout={<DashboardLayout />} />}>
           <Route index element={<ManageUsers />} />
         </Route>
 

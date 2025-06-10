@@ -1,15 +1,10 @@
 import React from "react";
 import { Outlet } from "react-router";
 
-function ProtectRoute() {
+function ProtectRoute({ layout }:any) {
   /* เขียนโค้ด check การ Login */
 
-  return (
-    <div>
-      ProtectRoute
-      <Outlet />
-    </div>
-  );
+  return layout
 }
 
 export default ProtectRoute;
