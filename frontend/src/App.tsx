@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
 import "./App.css";
 
@@ -8,15 +7,24 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Notfound from "./pages/Notfound";
 import ManageUsers from "./pages/ManageUsers";
+import Layout from "./route/layout/Layout";
+import ProtectRoute from "./route/protect-route/ProtectRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/users" element={<ManageUsers />} />
+        {/* Public */}
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+
+        {/* Private */}
+        <Route path="users" element={<ProtectRoute />}>
+          <Route index element={<ManageUsers />} />
+        </Route>
 
         <Route path="*" element={<Notfound />} />
       </Routes>
