@@ -1,7 +1,6 @@
 //Components
+import AddNewUser from "@/components/modal/AddNewUser";
 import UsersTable from "@/components/table/UsersTable";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 
 type Props = {};
 
@@ -10,10 +9,8 @@ function ManageUsers({}: Props) {
     <div className="space-y-2">
       {/* Title */}
       <div className="flex justify-between items-center">
-        <h3 className="">User's List</h3>
-        <Button className="btn-indigo">
-          <Plus /> Add new user
-        </Button>
+        <h3 className="text-shadow-lg">User's List</h3>
+        <AddNewUser />
       </div>
 
       {/* Table */}

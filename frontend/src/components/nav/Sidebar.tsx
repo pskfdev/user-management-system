@@ -4,7 +4,7 @@ import { ContactRound, House } from "lucide-react";
 
 function Sidebar() {
   return (
-    <nav className="bg-indigo-500 rounded-md py-5 min-w-20 w-1/12 text-center">
+    <nav className="bg-indigo-500 rounded-md py-5 min-w-20 w-1/12 text-center shadow-lg shadow-indigo-500/50">
       <h3 className="text-white">LOGO</h3>
 
       <ul className=" text-white mt-10 space-y-5 flex flex-col items-center px-2">

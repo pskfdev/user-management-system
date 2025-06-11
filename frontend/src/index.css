@@ -142,6 +142,6 @@
 
 @layer components {
   .btn-indigo {
-    @apply !text-white !bg-indigo-500 cursor-pointer;
+    @apply !text-white !bg-indigo-500 cursor-pointer !shadow-lg !shadow-indigo-500/30;
   }
 }
