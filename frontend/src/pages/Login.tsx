@@ -1,6 +1,7 @@
-/* "use client"; */
-
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router";
+/* Components */
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Form,
@@ -12,23 +13,26 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router";
+import { Eye, EyeOff } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type LoginFormValues = {
-  email: string;
+  username: string;
   password: string;
 };
 
 function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const form = useForm<LoginFormValues>({
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
 
   const onSubmit = (data: LoginFormValues) => {
-    console.log("Submitted:", data);
+    console.log(data);
     // เพิ่ม logic login ตรงนี้ได้ เช่น ส่งไป API
   };
 
@@ -44,7 +48,7 @@ function Login() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="email"
+              name="username"
               rules={{ required: "Please enter your username." }}
               render={({ field }) => (
                 <FormItem>
@@ -69,12 +73,27 @@ function Login() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      className="text-sm"
-                      placeholder="Password"
-                      {...field}
-                    />
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        className="text-sm pr-10"
+                        placeholder="Password"
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className={cn(
+                          "absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+                        )}
+                      >
+                        {showPassword ? (
+                          <EyeOff size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
