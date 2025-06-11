@@ -124,7 +124,7 @@
     @apply text-[30px] tracking-tighter leading-[1.2] lg:text-[38px];
   }
   h3 {
-    @apply text-[18px] font-semibold;
+    @apply text-[18px] font-bold tracking-wide;
   }
   h4 {
     @apply text-base font-semibold;
@@ -137,5 +137,11 @@
   }
   p {
     @apply text-sm tracking-tighter;
+  }
+}
+
+@layer components {
+  .btn-indigo {
+    @apply !text-white !bg-indigo-500 cursor-pointer;
   }
 }
