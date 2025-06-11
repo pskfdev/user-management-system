@@ -1,15 +1,17 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import "./App.css";
-
+//Layout
+import Layout from "./route/layout/Layout";
+import DashboardLayout from "./route/layout/DashboardLayout";
+//Protect Route
+import ProtectRoute from "./route/protect-route/ProtectRoute";
 //Pages
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Notfound from "./pages/Notfound";
 import ManageUsers from "./pages/ManageUsers";
-import Layout from "./route/layout/Layout";
-import ProtectRoute from "./route/protect-route/ProtectRoute";
-import DashboardLayout from "./route/layout/DashboardLayout";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -23,8 +25,9 @@ function App() {
         </Route>
 
         {/* Private */}
-        <Route path="users" element={<ProtectRoute layout={<DashboardLayout />} />}>
-          <Route index element={<ManageUsers />} />
+        <Route path="dashboard" element={<ProtectRoute layout={<DashboardLayout />} />}>
+          <Route index element={<Dashboard />} />
+          <Route path="users" element={<ManageUsers />} />
         </Route>
 
         <Route path="*" element={<Notfound />} />

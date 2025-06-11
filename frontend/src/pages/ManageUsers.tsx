@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 
 type Props = {};
 
-function ManageUsers() {
+function ManageUsers({}: Props) {
   return (
     <div className="space-y-2">
       {/* Title */}

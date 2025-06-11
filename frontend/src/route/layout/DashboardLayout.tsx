@@ -16,6 +16,7 @@ function DashboardLayout() {
   return (
     <main className="min-h-screen p-5 flex flex-col">
       <div className="flex h-full flex-grow space-x-5">
+        {/* Content left */}
         <Sidebar />
 
         {/* Content right */}
@@ -30,16 +31,16 @@ function DashboardLayout() {
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="bg-indigo-100 border border-indigo-200">
                 <DropdownMenuLabel>
                   <h4 className="text-blue-500 text-sm">{username}</h4>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator className="border-b border-indigo-200" />
                 <DropdownMenuItem asChild>
-                  <Link to="/users">Home</Link>
+                  <Link to="/dashboard">Home</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/users">user</Link>
+                  <Link to="/dashboard/users">user</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-red-500 cursor-pointer"
@@ -55,6 +56,7 @@ function DashboardLayout() {
 
           <hr className="my-5" />
 
+          {/* Content page */}
           <Outlet />
         </div>
       </div>
