@@ -45,7 +45,7 @@ function AddNewUser({}: Props) {
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit" className="btn-indigo">Submit</Button>
           </DialogFooter>
         </DialogContent>
       </form>
