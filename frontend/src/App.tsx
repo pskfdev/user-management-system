@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Notfound from "./pages/Notfound";
 import ManageUsers from "./pages/ManageUsers";
 import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="dashboard" element={<ProtectRoute layout={<DashboardLayout />} />}>
           <Route index element={<Dashboard />} />
           <Route path="users" element={<ManageUsers />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
 
         <Route path="*" element={<Notfound />} />

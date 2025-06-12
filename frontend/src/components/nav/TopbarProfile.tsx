@@ -3,7 +3,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -25,9 +24,11 @@ function TopbarProfile({}: Props) {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="bg-indigo-100 border border-indigo-200">
-          <DropdownMenuLabel>
-            <h4 className="text-indigo-500 text-sm">{username}</h4>
-          </DropdownMenuLabel>
+          <DropdownMenuItem asChild>
+            <Link to="/dashboard/profile" className="text-indigo-500 text-sm">
+              {username}
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuSeparator className="border-b border-indigo-200" />
           <DropdownMenuItem asChild>
             <Link to="/dashboard">HOME</Link>
