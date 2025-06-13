@@ -1,4 +1,5 @@
-const { PrismaClient } = require('@prisma/client')
+const bcrypt = require("bcrypt");
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 //สร้างข้อมูล auto เมื่อรัน scripts
@@ -66,7 +67,21 @@ async function main() {
       },
     });
   }
-  
+
+  //สร้างรหัส Default role = admin auto
+  //Hash-Password default "admin"
+  const hashPassword = await bcrypt.hash("admin", 10);
+
+  await prisma.user.upsert({
+    where: { email: "admin@example.com" },
+    update: {},
+    create: {
+      name: "DefaultAdmin",
+      email: "admin@example.com",
+      password: hashPassword,
+      roleId: adminRole.id,
+    },
+  });
 
   console.log("Seed data created successfully.");
 }
