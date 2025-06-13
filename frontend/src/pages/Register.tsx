@@ -14,10 +14,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from "sonner"
 import { cn } from "@/lib/utils";
+//Functions
+import { register } from "@/functions/auth";
 
 type RegisterFormValues = {
-  username: string;
+  name: string;
+  email: string;
   password: string;
   confirmPassword: string;
 };
@@ -28,7 +32,8 @@ function Register() {
 
   const form = useForm<RegisterFormValues>({
     defaultValues: {
-      username: "",
+      name: "",
+      email: "",
       password: "",
       confirmPassword: "",
     },
@@ -45,8 +50,15 @@ function Register() {
       return;
     }
 
-    console.log(data);
-    // ส่งข้อมูลไป backend ได้ตรงนี้
+    register(data)
+      .then((res) => {
+        toast.success(res.data.message)
+      })
+      .catch((err) => {
+        console.log("register fail!", err);
+        toast.error("Register Fail!!")
+      });
+    form.reset()
   };
 
   return (
@@ -61,16 +73,42 @@ function Register() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="username"
-              rules={{ required: "Please enter your username." }}
+              name="name"
+              rules={{ required: "Please enter your name." }}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>name</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
                       className="text-sm"
-                      placeholder="Username"
+                      placeholder="name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="email"
+              rules={{
+                required: "Please enter your email.",
+                pattern: {
+                  value: /^[^@]+@[^@]+\.[^@]+$/,
+                  message: "Incorrect email format.",
+                },
+              }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      className="text-sm"
+                      placeholder="email@example.com"
                       {...field}
                     />
                   </FormControl>
