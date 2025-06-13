@@ -3,3 +3,8 @@ export type RegisterValues = {
   email: string;
   password: string;
 };
+
+export type LoginValues = {
+  email: string;
+  password: string;
+};

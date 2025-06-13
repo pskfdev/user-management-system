@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 /* Components */
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
@@ -14,26 +14,41 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+//Functions
+import { login } from "@/functions/auth";
 
 type LoginFormValues = {
-  username: string;
+  email: string;
   password: string;
 };
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm<LoginFormValues>({
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
 
   const onSubmit = (data: LoginFormValues) => {
-    console.log(data);
-    // เพิ่ม logic login ตรงนี้ได้ เช่น ส่งไป API
+
+    login(data)
+      .then((res) => {
+        const { payload, token } = res.data
+      
+        localStorage.setItem("name", payload.name);
+        localStorage.setItem("token", token);
+        navigate("/dashboard/users");
+      })
+      .catch((err) => {
+        console.log("Login Fail!!", err);
+        toast.error("Login Fail!!")
+      });
   };
 
   return (
@@ -48,16 +63,22 @@ function Login() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="username"
-              rules={{ required: "Please enter your username." }}
+              name="email"
+              rules={{
+                required: "Please enter your email.",
+                pattern: {
+                  value: /^[^@]+@[^@]+\.[^@]+$/,
+                  message: "Incorrect email format.",
+                },
+              }}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      type="text"
+                      type="email"
                       className="text-sm"
-                      placeholder="Username"
+                      placeholder="email@example.com"
                       {...field}
                     />
                   </FormControl>
