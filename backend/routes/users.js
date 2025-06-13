@@ -9,6 +9,7 @@ const { userCheck, permissionEdit, permissionCreate, permissionDelete } = requir
 
 /* For member */
 router.get('/users', userCheck, listUsers)
+router.get('/me', userCheck, readUser)
 
 /* For admin */
 router.get('/users/:id', userCheck, permissionEdit, readUser)

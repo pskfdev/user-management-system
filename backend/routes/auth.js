@@ -3,7 +3,6 @@ const router = express.Router()
 
 /* Controller */
 const { register, login } = require('../controllers/auth')
-/* Middleware */
 
 
 router.post('/register', register)
