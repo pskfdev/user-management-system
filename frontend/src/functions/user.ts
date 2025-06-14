@@ -7,3 +7,11 @@ export const readProfile = async (token: string) => {
     },
   });
 };
+
+export const listUsers = async (token: string) => {
+  return await axios.get(`${import.meta.env.VITE_APP_API}/users`, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+};

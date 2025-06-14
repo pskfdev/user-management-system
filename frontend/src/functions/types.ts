@@ -9,6 +9,19 @@ export type LoginValues = {
   password: string;
 };
 
+export type ResRole = {
+  id: number;
+  name: string;
+  createdAt: string;
+} 
+
+export type ResUser = {
+  id: number;
+  name: string;
+  email: string;
+  role: ResRole;
+}
+
 export type ResProfile = {
   id: number;
   name: string;
