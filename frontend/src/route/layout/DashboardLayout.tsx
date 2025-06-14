@@ -1,6 +1,7 @@
 import Sidebar from "@/components/nav/Sidebar";
 import TopbarProfile from "@/components/nav/TopbarProfile";
 import { Outlet } from "react-router";
+import { Toaster } from "@/components/ui/sonner";
 
 function DashboardLayout() {
 
@@ -17,6 +18,7 @@ function DashboardLayout() {
           <hr className="my-5" />
 
           <Outlet />
+          <Toaster richColors />
         </div>
       </div>
     </main>

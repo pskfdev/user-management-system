@@ -8,6 +8,7 @@ import type { ResUser } from "@/functions/types";
 
 function ManageUsers() {
   const [data, setData] = useState<ResUser []>([]);
+  const [update, setUpdate] = useState<boolean>(false);
   const token: string = localStorage.token;
 
   const fetchUser = () => {
@@ -23,14 +24,14 @@ function ManageUsers() {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [update]);
 
   return (
     <div className="space-y-2">
       {/* Title */}
       <div className="flex justify-between items-center">
         <h3 className="text-shadow-lg">User's List</h3>
-        <AddNewUser />
+        <AddNewUser setUpdate={setUpdate} />
       </div>
 
       {/* Table */}

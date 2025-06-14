@@ -10,6 +10,13 @@ export type LoginValues = {
   password: string;
 };
 
+export type UserValues = {
+  name: string;
+  email: string;
+  password: string;
+  roleId: number;
+};
+
 /* Response */
 export type ResRole = {
   id: number;
