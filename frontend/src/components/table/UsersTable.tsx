@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import type { Dispatch, SetStateAction } from "react";
 //Components
 import {
   Table,
@@ -10,16 +11,18 @@ import {
 } from "@/components/ui/table";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { SquarePen, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import type { ResUser } from "@/functions/types";
+import EditUser from "../modal/EditUser";
 
 type Props = {
   data: ResUser[];
+  setUpdate: Dispatch<SetStateAction<boolean>>;
 };
 
 const ITEMS_PER_PAGE = 10;
 
-function UsersTable({ data }: Props) {
+function UsersTable({ data, setUpdate }: Props) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
@@ -90,7 +93,7 @@ function UsersTable({ data }: Props) {
                   </span>
                 </TableCell>
                 <TableCell className="flex items-center space-x-2">
-                  <SquarePen className="text-orange-400 mx-auto cursor-pointer" />
+                  <EditUser userId={user.id} setUpdate={setUpdate} />
                   <Trash2 className="text-red-500 mx-auto cursor-pointer" />
                 </TableCell>
               </TableRow>

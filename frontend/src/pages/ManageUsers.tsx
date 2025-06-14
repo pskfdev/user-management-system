@@ -35,7 +35,7 @@ function ManageUsers() {
       </div>
 
       {/* Table */}
-      <UsersTable data={data} />
+      <UsersTable data={data} setUpdate={setUpdate} />
     </div>
   );
 }

@@ -33,6 +33,7 @@ exports.readUser = async (req, res) => {
         email: true,
         role: {
           select: {
+            id: true,
             name: true,
             permissions: {
               select: {

@@ -17,6 +17,11 @@ export type UserValues = {
   roleId: number;
 };
 
+export type EditUserValues = {
+  name: string;
+  roleId: number;
+};
+
 /* Response */
 export type ResRole = {
   id: number;
