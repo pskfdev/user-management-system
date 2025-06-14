@@ -6,12 +6,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
-type Props = {};
+function TopbarProfile() {
+  const name: string = localStorage.name;
+  const navigate = useNavigate();
 
-function TopbarProfile({}: Props) {
-  const username = "Pongsakan";
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
 
   return (
     <div className="flex justify-end py-2 text-black">
@@ -19,14 +23,14 @@ function TopbarProfile({}: Props) {
         <DropdownMenuTrigger>
           <Avatar className="cursor-pointer border-2 w-10 h-10 border-indigo-500">
             <AvatarFallback className="uppercase bg-indigo-200">
-              {username && username.slice(0, 2)}
+              {name && name.slice(0, 2)}
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="bg-indigo-100 border border-indigo-200">
           <DropdownMenuItem asChild>
             <Link to="/dashboard/profile" className="text-indigo-500 text-sm">
-              {username}
+              {name && name}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator className="border-b border-indigo-200" />
@@ -38,9 +42,9 @@ function TopbarProfile({}: Props) {
           </DropdownMenuItem>
           <DropdownMenuItem
             className="text-red-500 cursor-pointer"
-            /* onClick={() => {
-                    userLogout();
-                  }} */
+            onClick={() => {
+              logout();
+            }}
           >
             LOGOUT
           </DropdownMenuItem>

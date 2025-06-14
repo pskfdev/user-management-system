@@ -2,14 +2,14 @@ const express = require('express')
 const router = express.Router()
 
 /* Controller */
-const { listUsers, readUser, addUser, updateUser, deleteUser } = require('../controllers/users')
+const { listUsers, readUser, addUser, updateUser, deleteUser, readProfile } = require('../controllers/users')
 /* Middleware */
 const { userCheck, permissionEdit, permissionCreate, permissionDelete } = require('../middleware/authCheck')
 
 
 /* For member */
 router.get('/users', userCheck, listUsers)
-router.get('/me', userCheck, readUser)
+router.get('/me', userCheck, readProfile)
 
 /* For admin */
 router.get('/users/:id', userCheck, permissionEdit, readUser)

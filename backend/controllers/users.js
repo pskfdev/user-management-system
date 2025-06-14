@@ -139,3 +139,20 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: "Server Error!" });
   }
 };
+
+exports.readProfile = async (req, res) => {
+  try {
+    const payload = {
+      id: req.user.id,
+      name: req.user.name,
+      email: req.user.email,
+      role: req.user.role.name,
+      permissions: req.user.role.permissions.map((p) => p.permission?.name),
+    };
+    
+    res.status(200).json(payload);
+  } catch (err) {
+    console.log("Err", err);
+    res.status(500).json({ message: "Server Error!" });
+  }
+};

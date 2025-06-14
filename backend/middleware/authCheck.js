@@ -45,9 +45,6 @@ exports.userCheck = async (req, res, next) => {
     };
     req.user = payload;
 
-    console.log("payload", payload.role.permissions);
-    
-
     next();
   } catch (err) {
     console.log("Err", err);
