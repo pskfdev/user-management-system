@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
 import "./App.css";
 //Layout
@@ -15,6 +16,8 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 
 function App() {
+  const [admin, setAdmin] = useState<boolean>(false);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -26,9 +29,9 @@ function App() {
         </Route>
 
         {/* Private */}
-        <Route path="dashboard" element={<ProtectRoute layout={<DashboardLayout />} />}>
+        <Route path="dashboard" element={<ProtectRoute layout={<DashboardLayout />} setAdmin={setAdmin} />}>
           <Route index element={<Dashboard />} />
-          <Route path="users" element={<ManageUsers />} />
+          <Route path="users" element={<ManageUsers admin={admin} />} />
           <Route path="profile" element={<Profile />} />
         </Route>
 

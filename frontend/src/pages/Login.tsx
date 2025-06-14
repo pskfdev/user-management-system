@@ -43,7 +43,7 @@ function Login() {
       
         localStorage.setItem("name", payload.name);
         localStorage.setItem("token", token);
-        navigate("/dashboard/users");
+        navigate("/dashboard");
       })
       .catch((err) => {
         console.log("Login Fail!!", err);

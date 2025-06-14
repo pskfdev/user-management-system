@@ -4,8 +4,7 @@ import { readProfile } from "@/functions/user";
 //Components
 import LoadingtoRedirect from "./LoadingtoRedirect";
 
-function ProtectRoute({ layout }: any) {
-  
+function ProtectRoute({ layout, setAdmin }: any) {
   const [member, setMember] = useState(false);
   const token = localStorage.getItem("token");
 
@@ -14,6 +13,10 @@ function ProtectRoute({ layout }: any) {
       readProfile(token)
         .then((res) => {
           setMember(true);
+
+          if (res.data.role == "Admin") {
+            setAdmin(true);
+          }
         })
         .catch((err) => {
           console.log("Access denied", err);

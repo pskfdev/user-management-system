@@ -21,11 +21,12 @@ import { deleteUser } from "@/functions/user";
 type Props = {
   data: ResUser[];
   setUpdate: Dispatch<SetStateAction<boolean>>;
+  admin: boolean;
 };
 
 const ITEMS_PER_PAGE = 10;
 
-function UsersTable({ data, setUpdate }: Props) {
+function UsersTable({ data, setUpdate, admin }: Props) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const token: string = localStorage.token;
@@ -90,7 +91,9 @@ function UsersTable({ data, setUpdate }: Props) {
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Role</TableHead>
-            <TableHead className="text-center w-[100px]">Actions</TableHead>
+            {admin && (
+              <TableHead className="text-center w-[100px]">Actions</TableHead>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -110,13 +113,15 @@ function UsersTable({ data, setUpdate }: Props) {
                     {user.role.name}
                   </span>
                 </TableCell>
-                <TableCell className="flex items-center space-x-2">
-                  <EditUser userId={user.id} setUpdate={setUpdate} />
-                  <Trash2
-                    className="text-red-500 mx-auto cursor-pointer"
-                    onClick={() => handleRemove(user.id)}
-                  />
-                </TableCell>
+                {admin && (
+                  <TableCell className="flex items-center space-x-2">
+                    <EditUser userId={user.id} setUpdate={setUpdate} />
+                    <Trash2
+                      className="text-red-500 mx-auto cursor-pointer"
+                      onClick={() => handleRemove(user.id)}
+                    />
+                  </TableCell>
+                )}
               </TableRow>
             ))
           ) : (

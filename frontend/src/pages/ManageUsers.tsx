@@ -6,7 +6,7 @@ import UsersTable from "@/components/table/UsersTable";
 import { listUsers } from "@/functions/user";
 import type { ResUser } from "@/functions/types";
 
-function ManageUsers() {
+function ManageUsers({admin}:any) {
   const [data, setData] = useState<ResUser []>([]);
   const [update, setUpdate] = useState<boolean>(false);
   const token: string = localStorage.token;
@@ -20,7 +20,6 @@ function ManageUsers() {
         console.log("Fetch user fail!", err);
       });
   };
-  
 
   useEffect(() => {
     fetchUser();
@@ -31,11 +30,11 @@ function ManageUsers() {
       {/* Title */}
       <div className="flex justify-between items-center">
         <h3 className="text-shadow-lg">User's List</h3>
-        <AddNewUser setUpdate={setUpdate} />
+        {admin && <AddNewUser setUpdate={setUpdate} />}
       </div>
 
       {/* Table */}
-      <UsersTable data={data} setUpdate={setUpdate} />
+      <UsersTable data={data} setUpdate={setUpdate} admin={admin} />
     </div>
   );
 }
