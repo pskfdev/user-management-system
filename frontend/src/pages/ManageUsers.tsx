@@ -1,10 +1,30 @@
+import { useState, useEffect } from "react";
 //Components
 import AddNewUser from "@/components/modal/AddNewUser";
 import UsersTable from "@/components/table/UsersTable";
+//Functions
+import { listUsers } from "@/functions/user";
+import type { ResUser } from "@/functions/types";
 
-type Props = {};
+function ManageUsers() {
+  const [data, setData] = useState<ResUser []>([]);
+  const token: string = localStorage.token;
 
-function ManageUsers({}: Props) {
+  const fetchUser = () => {
+    listUsers(token)
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log("Fetch user fail!", err);
+      });
+  };
+  
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <div className="space-y-2">
       {/* Title */}
@@ -14,7 +34,7 @@ function ManageUsers({}: Props) {
       </div>
 
       {/* Table */}
-      <UsersTable />
+      <UsersTable data={data} />
     </div>
   );
 }

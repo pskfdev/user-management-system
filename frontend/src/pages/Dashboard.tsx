@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { BookUser, ShieldUser, SquareUserRound } from "lucide-react";
 //Functions
 import { listUsers } from "@/functions/user";
-import type { AxiosResponse } from "axios";
 import type { ResUser } from "@/functions/types";
 
 function Dashboard() {

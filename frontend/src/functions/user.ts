@@ -1,4 +1,5 @@
 import axios from "axios";
+import type { ResUser } from "./types";
 
 export const readProfile = async (token: string) => {
   return await axios.get(`${import.meta.env.VITE_APP_API}/me`, {
@@ -9,7 +10,7 @@ export const readProfile = async (token: string) => {
 };
 
 export const listUsers = async (token: string) => {
-  return await axios.get(`${import.meta.env.VITE_APP_API}/users`, {
+  return await axios.get<ResUser[]>(`${import.meta.env.VITE_APP_API}/users`, {
     headers: {
       authorization: `Bearer ${token}`,
     },

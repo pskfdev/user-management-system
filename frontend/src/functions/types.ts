@@ -1,3 +1,4 @@
+/* arg data */
 export type RegisterValues = {
   name: string;
   email: string;
@@ -9,6 +10,7 @@ export type LoginValues = {
   password: string;
 };
 
+/* Response */
 export type ResRole = {
   id: number;
   name: string;

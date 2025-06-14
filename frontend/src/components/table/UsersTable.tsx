@@ -1,3 +1,5 @@
+import { useState, useMemo } from "react";
+//Components
 import {
   Table,
   TableBody,
@@ -8,101 +10,124 @@ import {
 } from "@/components/ui/table";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { SquarePen, Trash2 } from "lucide-react";
+import type { ResUser } from "@/functions/types";
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
+type Props = {
+  data: ResUser[];
+};
 
-function UsersTable() {
+const ITEMS_PER_PAGE = 10;
+
+function UsersTable({ data }: Props) {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const filteredData = useMemo(() => {
+    return data.filter((user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm, data]);
+
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredData.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredData, currentPage]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // reset กลับหน้าแรกทุกครั้งที่ค้นหา
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const handlePrevious = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
   return (
     <div className="w-full px-5 space-y-5 my-5">
       {/* Input search */}
-      <div className="flex justify-between items-center space-x-5">
-        <Input placeholder="Search" type="search" className="flex flex-grow" />
-        <Button className="btn-indigo">Search</Button>
+      <div className="flex justify-center items-center">
+        <Input
+          placeholder="Search by name"
+          type="search"
+          className="max-w-3xl"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
       </div>
 
       {/* Table */}
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead className="text-center w-[100px]">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {invoices?.length ? (
-            invoices.map((invoice) => (
-              <TableRow key={invoice.invoice}>
-                <TableCell className="font-medium">{invoice.invoice}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.paymentMethod}</TableCell>
-                <TableCell className="text-right">
-                  {invoice.totalAmount}
+          {paginatedData.length ? (
+            paginatedData.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>
+                  <span
+                    className={`w-fit py-1 px-2 rounded-lg border ${
+                      user.role.name === "Admin"
+                        ? "border-blue-400 bg-blue-100 text-blue-800"
+                        : "border-amber-400 bg-amber-100 text-amber-800"
+                    }`}
+                  >
+                    {user.role.name}
+                  </span>
+                </TableCell>
+                <TableCell className="flex items-center space-x-2">
+                  <SquarePen className="text-orange-400 mx-auto cursor-pointer" />
+                  <Trash2 className="text-red-500 mx-auto cursor-pointer" />
                 </TableCell>
               </TableRow>
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={invoices.length} className="h-24 text-center">
-                No resilt.
+              <TableCell colSpan={4} className="h-24 text-center">
+                No results found.
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
 
-      {/* Next and Previous */}
-      <div className="flex justify-end space-x-2 py-4">
-        <Button variant="outline" size="sm" className="cursor-pointer">
-          Previous
-        </Button>
-        <Button variant="outline" size="sm" className="cursor-pointer">
-          Next
-        </Button>
+      {/* Pagination */}
+      <div className="flex justify-between items-center py-4">
+        <p className="text-sm text-muted-foreground">
+          Page {currentPage} of {totalPages || 1}
+        </p>
+        <div className="flex space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handlePrevious}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleNext}
+            disabled={currentPage === totalPages || totalPages === 0}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );
