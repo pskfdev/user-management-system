@@ -25,7 +25,7 @@ export const createUser = async (token: string, value: UserValues) => {
   });
 };
 
-export const readUsers = async (token: string, id:number) => {
+export const readUsers = async (token: string, id: number) => {
   return await axios.get(`${import.meta.env.VITE_APP_API}/users/${id}`, {
     headers: {
       authorization: `Bearer ${token}`,
@@ -33,8 +33,20 @@ export const readUsers = async (token: string, id:number) => {
   });
 };
 
-export const updateUser = async (token: string, value: EditUserValues, id:number) => {
+export const updateUser = async (
+  token: string,
+  value: EditUserValues,
+  id: number
+) => {
   return await axios.put(`${import.meta.env.VITE_APP_API}/users/${id}`, value, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteUser = async (token: string, id: number) => {
+  return await axios.delete(`${import.meta.env.VITE_APP_API}/users/${id}`, {
     headers: {
       authorization: `Bearer ${token}`,
     },

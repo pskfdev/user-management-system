@@ -14,6 +14,9 @@ import { Button } from "../ui/button";
 import { Trash2 } from "lucide-react";
 import type { ResUser } from "@/functions/types";
 import EditUser from "../modal/EditUser";
+import { toast } from "sonner";
+//Functions
+import { deleteUser } from "@/functions/user";
 
 type Props = {
   data: ResUser[];
@@ -25,6 +28,7 @@ const ITEMS_PER_PAGE = 10;
 function UsersTable({ data, setUpdate }: Props) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const token: string = localStorage.token;
 
   const filteredData = useMemo(() => {
     return data.filter((user) =>
@@ -50,6 +54,20 @@ function UsersTable({ data, setUpdate }: Props) {
 
   const handlePrevious = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleRemove = (id: number) => {
+    if (window.confirm("Are you sure delete!")) {
+      deleteUser(token, id)
+        .then((res) => {
+          setUpdate((prev: boolean) => !prev);
+          toast.success(res.data.message);
+        })
+        .catch((err) => {
+          console.log("Remove user Fail!", err);
+          toast.error("Remove user Fail!");
+        });
+    }
   };
 
   return (
@@ -94,7 +112,10 @@ function UsersTable({ data, setUpdate }: Props) {
                 </TableCell>
                 <TableCell className="flex items-center space-x-2">
                   <EditUser userId={user.id} setUpdate={setUpdate} />
-                  <Trash2 className="text-red-500 mx-auto cursor-pointer" />
+                  <Trash2
+                    className="text-red-500 mx-auto cursor-pointer"
+                    onClick={() => handleRemove(user.id)}
+                  />
                 </TableCell>
               </TableRow>
             ))
